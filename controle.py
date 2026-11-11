@@ -51,6 +51,7 @@ def menu():
         print("1 - Adicionar receita")
         print("2 - Adicionar despesa")
         print("3 - Listar lançamentos")
+        print("4 - Gerar relatório financeiro")
         print("0 - Sair")
 
         opcao = input("\nEscolha uma opção: ")
@@ -61,11 +62,29 @@ def menu():
             adicionar_despesa()
         elif opcao == "3":
             listar_lancamentos()
+        elif opcao == "4": 
+            gerar_relatorio()
         elif opcao == "0":
             print("\nEncerrando o sistema...")
             break
         else:
             print("\nOpção inválida. Tente novamente.\n")
 
+def gerar_relatorio():
+    total_receitas = 0
+    total_despesas = 0
+
+    for lancamento in lancamentos:
+        if lancamento["tipo"] == "Receita":
+            total_receitas += lancamento["valor"]
+        elif lancamento["tipo"] == "Despesa":
+            total_despesas += lancamento["valor"]
+
+    saldo = total_receitas - total_despesas
+
+    print("\n--- RELATÓRIO FINANCEIRO ---")
+    print(f"Total de receitas: R$ {total_receitas:.2f}")
+    print(f"Total de despesas: R$ {total_despesas:.2f}")
+    print(f"Saldo atual: R$ {saldo:.2f}\n")
 
 menu()
