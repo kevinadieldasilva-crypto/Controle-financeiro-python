@@ -118,6 +118,56 @@ def gerar_relatorio():
     print(f"Total de despesas: R$ {total_despesas:.2f}")
     print(f"Saldo atual: R$ {saldo:.2f}\n")
 
+def gerar_relatorio_categorias():
+
+    total_receitas = 0
+    despesas_por_categoria = {}
+
+    # Calculando as receitas e agrupando despesas
+    for lancamento in lancamentos:
+
+        if lancamento["tipo"] == "Receita":
+            total_receitas += lancamento["valor"]
+
+        elif lancamento["tipo"] == "Despesa":
+
+            categoria = lancamento["categoria"]
+            valor = lancamento["valor"]
+
+            if categoria not in despesas_por_categoria:
+                despesas_por_categoria[categoria] = 0
+
+            despesas_por_categoria[categoria] += valor
+
+    # Verificando se existem receitas
+    if total_receitas == 0:
+        print("\nNão existem receitas cadastradas.")
+        return
+
+    # Exibindo o relatório
+    print("\n--- RELATÓRIO POR CATEGORIA ---")
+
+    total_despesas = 0
+
+    for categoria, valor in despesas_por_categoria.items():
+
+        percentual = (valor / total_receitas) * 100
+
+        total_despesas += valor
+
+        print(
+            f"{categoria}: "
+            f"R$ {valor:.2f} | "
+            f"{percentual:.2f}% da receita"
+        )
+
+    saldo = total_receitas - total_despesas
+
+    print("\n-------------------------------")
+    print(f"Receita total: R$ {total_receitas:.2f}")
+    print(f"Despesas totais: R$ {total_despesas:.2f}")
+    print(f"Saldo disponível: R$ {saldo:.2f}")
+    print("-------------------------------\n")    
 
 def menu():
     while True:
@@ -126,6 +176,7 @@ def menu():
         print("2 - Adicionar despesa")
         print("3 - Listar lançamentos")
         print("4 - Gerar relatório financeiro")
+        print("5 - Relatório por categoria")
         print("0 - Sair")
 
         opcao = input("\nEscolha uma opção: ")
@@ -138,6 +189,8 @@ def menu():
             listar_lancamentos()
         elif opcao == "4": 
             gerar_relatorio()
+        elif opcao == "5":
+            gerar_relatorio_categorias()
         elif opcao == "0":
             print("\nEncerrando o sistema...")
             break
