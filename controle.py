@@ -1,3 +1,5 @@
+from datetime import date
+
 lancamentos = []
 
 categorias_despesa = [
@@ -57,14 +59,18 @@ def adicionar_receita():
     valor = ler_valor("Valor da receita: ")
     categoria = escolher_categoria(categorias_receita)
 
+    data_lancamento = date.today().strftime("%d/%m/%Y")
+
     receita = {
         "tipo": "Receita",
         "descricao": descricao,
         "valor": valor,
-        "categoria": categoria
+        "categoria": categoria,
+        "data": data_lancamento
     }
 
     lancamentos.append(receita)
+
     print("\nReceita cadastrada com sucesso!\n")
 
 
@@ -73,14 +79,18 @@ def adicionar_despesa():
     valor = ler_valor("Valor da despesa: ")
     categoria = escolher_categoria(categorias_despesa)
 
+    data_lancamento = date.today().strftime("%d/%m/%Y")
+
     despesa = {
         "tipo": "Despesa",
         "descricao": descricao,
         "valor": valor,
-        "categoria": categoria
+        "categoria": categoria,
+        "data": data_lancamento
     }
 
     lancamentos.append(despesa)
+
     print("\nDespesa cadastrada com sucesso!\n")
 
 
@@ -89,9 +99,11 @@ def listar_lancamentos():
 
     if not lancamentos:
         print("Nenhum lançamento cadastrado.")
+
     else:
         for lancamento in lancamentos:
             print(
+                f"{lancamento['data']} | "
                 f"{lancamento['tipo']} | "
                 f"{lancamento['descricao']} | "
                 f"{lancamento['categoria']} | "
